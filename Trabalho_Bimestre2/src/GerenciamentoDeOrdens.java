@@ -12,18 +12,26 @@ public class GerenciamentoDeOrdens {
 	public void setListaOrdensDeServico(ListaEncadeadaDinamica<OrdemDeServico> listaOrdensDeServico) {
 		this.listaOrdensDeServico = listaOrdensDeServico;
 	}
-	
-	public GerenciamentoDeOrdens() {
-		this.listaOrdensDeServico = new ListaEncadeadaDinamica<OrdemDeServico>();
-		this.codigoAtual = 1;
-	}
-	
+
 	public ListaEncadeadaDinamica<Cliente> getListaClientes() {
 		return listaClientes;
 	}
 
 	public void setListaClientes(ListaEncadeadaDinamica<Cliente> listaClientes) {
 		this.listaClientes = listaClientes;
+	}
+
+	public int getCodigoAtual() {
+		return codigoAtual;
+	}
+
+	public void setCodigoAtual(int codigoAtual) {
+		this.codigoAtual = codigoAtual;
+	}
+
+	public GerenciamentoDeOrdens() {
+		this.listaOrdensDeServico = new ListaEncadeadaDinamica<OrdemDeServico>();
+		this.codigoAtual = 1;
 	}
 
 	public void cadastrarCliente(String nome, String endereco, String contato) {
@@ -53,7 +61,7 @@ public class GerenciamentoDeOrdens {
 	}
 
 	public boolean modificarCliente(Cliente antigo, String novoNome, String novoEndereco, 
-			String contatoNovo) {
+			String novoContato) {
 		
 		if (this.listaClientes.vazia()) {
 			return false;
@@ -64,13 +72,17 @@ public class GerenciamentoDeOrdens {
 		for (int i = 0; i < this.listaClientes.tamanho(); i++) {
 			provisorio = this.listaClientes.buscarPorPosicao(i+1);
 			
-			if (provisorio.getNome().equalsIgnoreCase(antigo.getNome() && 
-					provisorio.getEndereco().equalsIgnoreCase(antigo.getEndereco()) && 
-					provisorio.getContato().equalsIgnoreCase(antigo.getContato()) {
-				return provisorio;
+			if ((provisorio.getNome().equalsIgnoreCase(antigo.getNome())) && 
+					(provisorio.getEndereco().equalsIgnoreCase(antigo.getEndereco()) && 
+					(provisorio.getContato().equalsIgnoreCase(antigo.getContato())))) {
+				provisorio.setNome(novoNome);
+				provisorio.setEndereco(novoEndereco);
+				provisorio.setContato(novoContato);
+				return true;
 			}
 		}
 		
+		return false;
 	}
-	
 }
+
