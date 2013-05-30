@@ -135,6 +135,7 @@ public class GerenciamentoDeOrdens {
 	private ListaEncadeadaDinamica<Integer> criarLista(String linhaConverter) {
 		ListaEncadeadaDinamica<Integer> provisorio = new ListaEncadeadaDinamica<Integer>();
 		
+		// TODO implementar
 		String[] campos = linhaConverter.split("");
 		
 		for (int i = 0; i < campos.length; i++) {
