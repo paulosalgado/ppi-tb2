@@ -454,7 +454,7 @@ public class ListaEncadeadaDinamica <T> {
 			
 			int n = 0;
 			
-			String texto = "[";
+			String texto = null;
 			
 			No<T> provisorio = primeiro;
 			
@@ -468,8 +468,8 @@ public class ListaEncadeadaDinamica <T> {
 				
 			}
 			
-			/* é retornado a String mais o último valor */
-			return texto += provisorio.valor + "]";
+			/* é retornado a String mais o último valor (para não ter a última virgula) */
+			return texto += provisorio.valor;
 			
 		}
 		
