@@ -1,3 +1,6 @@
+import java.util.Date;
+
+
 public class Gerenciamento {
 	
 	private ListaEncadeadaDinamica<Cliente> listaClientes;
@@ -29,6 +32,17 @@ public class Gerenciamento {
 	public Gerenciamento(String arquivoClientes, String arquivoOrdens) {
 		this.listaClientes = Cliente.lerDados(arquivoClientes);
 		this.listaOrdensDeServico = OrdemDeServico.lerDados(arquivoOrdens);
+	}
+	
+	/**
+	 * Salva a lista de clientes e de ordens de serviço em um arquivo.
+	 * 
+	 * @param arquivoClientes - o endereço do arquivo que quer se salvar os clientes.
+	 * @param arquivoOrdens - o endereço do arquivo que quer se salvar as ordens de serviço.
+	 */
+	public void salvarArquivos(String arquivoClientes, String arquivoOrdens) {
+		Cliente.salvarArquivo(arquivoClientes, getListaClientes());
+		OrdemDeServico.salvarArquivo(arquivoOrdens, getListaOrdensDeServico());
 	}
 
 	/**
@@ -90,7 +104,8 @@ public class Gerenciamento {
 		for (int i = 0; i < this.listaClientes.tamanho(); i++) {
 			provisorio = this.listaClientes.buscarPorPosicao(i+1);
 			
-			if ((provisorio.getNome().equalsIgnoreCase(antigo.getNome())) && (provisorio.getEndereco().equalsIgnoreCase(antigo.getEndereco()) && 
+			if ((provisorio.getNome().equalsIgnoreCase(antigo.getNome())) && 
+					(provisorio.getEndereco().equalsIgnoreCase(antigo.getEndereco()) && 
 					(provisorio.getContato().equalsIgnoreCase(antigo.getContato())))) {
 				provisorio.setNome(novoNome);
 				provisorio.setEndereco(novoEndereco);
@@ -100,6 +115,196 @@ public class Gerenciamento {
 		}
 		
 		return false;
+	}
+
+	/**
+	 * Registra uma ordem de serviço na lista de ordens de serviço.
+	 * 
+	 * @param descricao - a descrição da ordem.
+	 * @param dataAbertura - a data de criação da ordem.
+	 * @param listaClientesEnvolvidos - a lista com os clientes envolvidos da ordem.
+	 * @param prioridade - a prioridade da ordem.
+	 */
+	public void registrarOrdemDeServico(String descricao, Date dataAbertura, ListaEncadeadaDinamica<Integer> listaClientesEnvolvidos, 
+			String prioridade) {
+		OrdemDeServico provisorio = new OrdemDeServico(this.listaOrdensDeServico.tamanho()+1, descricao, null, dataAbertura, null, 
+				listaClientesEnvolvidos, prioridade);
+		this.listaOrdensDeServico.adicionarFinal(provisorio);
+	}
+	
+	/**
+	 * Encerra uma ordem de serviço.
+	 * 
+	 * @param codigoOrdemDeServico - o código da ordem de serviço que se deseja encerrar.
+	 * @param descricaoAtendimento - a descrição do atendimento realizado.
+	 * @param dataEncerramento - a data de encerramento da ordem.
+	 * 
+	 * @return <code>true</code> caso a ordem de serviço tenha sido encerrada,
+	 * 		   <code>false</code> caso contrário. 
+	 */
+	public boolean encerrarOrdemDeServico(int codigoOrdemDeServico, String descricaoAtendimento, Date dataEncerramento) {
+		if (this.listaOrdensDeServico.vazia() || codigoOrdemDeServico > this.listaOrdensDeServico.tamanho()) {
+			return false;
+		}
+		
+		OrdemDeServico provisorio = this.listaOrdensDeServico.buscarPorPosicao(codigoOrdemDeServico);
+		provisorio.setDescricaoAtendimento(descricaoAtendimento);
+		provisorio.setDataEnceramento(dataEncerramento);
+		return true;
+	}
+	
+	/**
+	 * Busca em uma lista as ordens de serviço não finalizadas.
+	 * 
+	 * @return uma lista com as ordens de serviço não finalizadas,
+	 * 		   <code>null</code> caso a lista esteja vazia.
+	 */
+	public ListaEncadeadaDinamica<OrdemDeServico> ordensNaoAtendidas() {
+		if (this.listaOrdensDeServico.vazia()) {
+			return null;
+		}
+		
+		ListaEncadeadaDinamica<OrdemDeServico> provisorio = new ListaEncadeadaDinamica<OrdemDeServico>();
+		OrdemDeServico ordemProvisorio;
+		
+		for (int i = 0; i < this.listaOrdensDeServico.tamanho(); i++) {
+			ordemProvisorio = this.listaOrdensDeServico.buscarPorPosicao(i+1);
+			
+			if (ordemProvisorio.getDataEnceramento() == null) {
+				provisorio.adicionarFinal(ordemProvisorio);
+			}
+		}
+		
+		return provisorio;
+	}
+	
+	/**
+	 * Busca em uma lista as ordens de serviço pertencentes a um determinado cliente.
+	 * 
+	 * @param cliente - o cliente na qual se deseja buscar as ordens.
+	 * 
+	 * @return uma lista com as ordens de serviço do cliente,
+	 * 		   <code>null</code> caso a lista esteja vazia.
+	 */
+	public ListaEncadeadaDinamica<OrdemDeServico> buscaOrdensCliente(Cliente cliente) {
+		if (this.listaOrdensDeServico.vazia()){
+			return null;
+		}
+		
+		ListaEncadeadaDinamica<OrdemDeServico> provisorio = new ListaEncadeadaDinamica<OrdemDeServico>();
+		OrdemDeServico ordemProvisorio;
+		
+		for (int i = 0; i < this.listaOrdensDeServico.tamanho(); i++) {
+			ordemProvisorio = this.listaOrdensDeServico.buscarPorPosicao(i+1);
+			
+			for (int j = 0; j < ordemProvisorio.getListaClientesEnvolvidos().tamanho(); j++) {
+				if (ordemProvisorio.getListaClientesEnvolvidos().buscarPorPosicao(j+1) == cliente.getCodigo()) {
+					provisorio.adicionarFinal(ordemProvisorio);
+				}
+			}
+		}
+		
+		return provisorio;
+	}
+	
+	/**
+	 * Busca em uma lista as ordens de serviço finalizadas.
+	 * 
+	 * @return uma lista com as ordens de serviço finalizadas,
+	 * 		   <code>null</code> caso a lista esteja vazia.
+	 */
+	public ListaEncadeadaDinamica<OrdemDeServico> ordensAtendidas() {
+		if (this.listaOrdensDeServico.vazia()) {
+			return null;
+		}
+		
+		ListaEncadeadaDinamica<OrdemDeServico> provisorio = new ListaEncadeadaDinamica<OrdemDeServico>();
+		OrdemDeServico ordemProvisorio;
+		
+		for (int i = 0; i < this.listaOrdensDeServico.tamanho(); i++) {
+			ordemProvisorio = this.listaOrdensDeServico.buscarPorPosicao(i+1);
+			
+			if (ordemProvisorio.getDataEnceramento() != null) {
+				provisorio.adicionarFinal(ordemProvisorio);
+			}
+		}
+		
+		return provisorio;
+	}
+	
+	/**
+	 * Busca em uma lista as ordens de serviço de prioridade urgente.
+	 * 
+	 * @return uma lista com as ordens de serviço de prioridade urgente,
+	 * 		   <code>null</code> caso a lista esteja vazia.
+	 */
+	public ListaEncadeadaDinamica<OrdemDeServico> ordensPrioridadeUrgente() {
+		if (this.listaOrdensDeServico.vazia()) {
+			return null;
+		}
+		
+		ListaEncadeadaDinamica<OrdemDeServico> provisorio = new ListaEncadeadaDinamica<OrdemDeServico>();
+		OrdemDeServico ordemProvisorio;
+		
+		for (int i = 0; i < this.listaOrdensDeServico.tamanho(); i++) {
+			ordemProvisorio = this.listaOrdensDeServico.buscarPorPosicao(i+1);
+			
+			if (ordemProvisorio.getPrioridade().equalsIgnoreCase("urgente")) {
+				provisorio.adicionarFinal(ordemProvisorio);
+			}
+		}
+		
+		return provisorio;
+	}
+	
+	/**
+	 * Busca em uma lista as ordens de serviço de prioridade baixa.
+	 * 
+	 * @return uma lista com as ordens de serviço de prioridade baixa,
+	 * 		   <code>null</code> caso a lista esteja vazia.
+	 */
+	public ListaEncadeadaDinamica<OrdemDeServico> ordensPrioridadeBaixa() {
+		if (this.listaOrdensDeServico.vazia()) {
+			return null;
+		}
+		
+		ListaEncadeadaDinamica<OrdemDeServico> provisorio = new ListaEncadeadaDinamica<OrdemDeServico>();
+		OrdemDeServico ordemProvisorio;
+		
+		for (int i = 0; i < this.listaOrdensDeServico.tamanho(); i++) {
+			ordemProvisorio = this.listaOrdensDeServico.buscarPorPosicao(i+1);
+			
+			if (ordemProvisorio.getPrioridade().equalsIgnoreCase("baixa")) {
+				provisorio.adicionarFinal(ordemProvisorio);
+			}
+		}
+		
+		return provisorio;
+	}
+	
+	/**
+	 * Busca em uma lista as ordens de serviço de prioridade normal.
+	 * 
+	 * @return uma lista com as ordens de serviço de prioridade normal,
+	 * 		   <code>null</code> caso a lista esteja vazia.
+	 */
+	public ListaEncadeadaDinamica<OrdemDeServico> ordensPrioridadeNormal() {
+		if (this.listaOrdensDeServico.vazia()) {
+			return null;
+		}
+		
+		ListaEncadeadaDinamica<OrdemDeServico> provisorio = new ListaEncadeadaDinamica<OrdemDeServico>();
+		OrdemDeServico ordemProvisorio;
+		
+		for (int i = 0; i < this.listaOrdensDeServico.tamanho(); i++) {
+			ordemProvisorio = this.listaOrdensDeServico.buscarPorPosicao(i+1);
+			
+			if (ordemProvisorio.getPrioridade().equalsIgnoreCase("normal")) {
+				provisorio.adicionarFinal(ordemProvisorio);
+			}
+		}
+		
+		return provisorio;
 	}
 	
 }
