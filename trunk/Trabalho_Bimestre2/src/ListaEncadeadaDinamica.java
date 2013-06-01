@@ -454,22 +454,25 @@ public class ListaEncadeadaDinamica <T> {
 			
 			int n = 0;
 			
-			String texto = null;
+			String texto = "";
 			
 			No<T> provisorio = primeiro;
 			
 			/* loop irá até o penúltimo nó da lista */
-			while (n < this.tamanho() - 1) {
+			while (n < this.tamanho()) {
 				
-				texto += provisorio.valor + ", ";
+				if (n != 0) {
+					texto += ", ";
+				}
+				
+				texto += provisorio.valor;
 				provisorio = provisorio.proximo;
 				
 				n++;
 				
 			}
 			
-			/* é retornado a String mais o último valor (para não ter a última virgula) */
-			return texto += provisorio.valor;
+			return texto;
 			
 		}
 		

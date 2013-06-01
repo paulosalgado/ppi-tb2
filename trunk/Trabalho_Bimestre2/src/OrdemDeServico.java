@@ -168,7 +168,7 @@ public class OrdemDeServico {
 		Cliente clienteProvisorio;
 		
 		for (int i = 0; i < this.listaClientesEnvolvidos.tamanho(); i++) {
-			integerProvisorio = listaClientesEnvolvidos.buscarPorPosicao(i+1);
+			integerProvisorio = this.listaClientesEnvolvidos.buscarPorPosicao(i+1);
 			clienteProvisorio = listaClientes.buscarPorPosicao(integerProvisorio);
 			
 			provisorio.adicionarFinal(clienteProvisorio);
@@ -216,7 +216,7 @@ public class OrdemDeServico {
 	 * @return uma ordem de serviço com os dados da linha passada.
 	 */
 	private static OrdemDeServico montar(String linhaArquivo) {
-		String[] campos = linhaArquivo.split("\\|\\|\\|\\|\\|\\|");
+		String[] campos = linhaArquivo.split("\\|");
 		OrdemDeServico provisorio = new OrdemDeServico(Integer.parseInt(campos[0].trim()), campos[1].trim(), campos[2].trim(), 
 				conversaoStringEmDate(campos[3].trim()), conversaoStringEmDate(campos[4].trim()), criarLista(campos[5].trim()), 
 				campos[6].trim());
@@ -232,9 +232,11 @@ public class OrdemDeServico {
 	 */
 	@SuppressWarnings("deprecation")
 	private static Date conversaoStringEmDate(String aSerConvertida) {
-		String[] campos = aSerConvertida.split("\\/||/");
-		return new Date(Integer.parseInt(campos[0]), Integer.parseInt(campos[1].trim()), 
-				Integer.parseInt(campos[2].trim()));
+		String[] campos = aSerConvertida.split("\\/");
+		//for(int i=0;i<campos.length;i++)System.out.println(campos[i]);System.out.println("fim");
+		Date provisorio = new Date((Integer.parseInt(campos[0].trim())), Integer.parseInt(campos[1].trim()), Integer.parseInt(campos[2].trim()));
+		System.out.println(provisorio.getDate() + "/" + provisorio.getMonth() + "/" + provisorio.getYear());
+		return provisorio;
 	}
 	
 	/**
@@ -247,11 +249,10 @@ public class OrdemDeServico {
 	private static ListaEncadeadaDinamica<Integer> criarLista(String linhaConverter) {
 		ListaEncadeadaDinamica<Integer> provisorio = new ListaEncadeadaDinamica<Integer>();
 		
-		// TODO implementar
-		String[] campos = linhaConverter.split("");
+		String[] campos = linhaConverter.split("\\,");
 		
 		for (int i = 0; i < campos.length; i++) {
-			provisorio.adicionarFinal(Integer.parseInt(campos[i]));
+			provisorio.adicionarFinal(Integer.parseInt(campos[i].trim()));
 		}
 		
 		return provisorio;

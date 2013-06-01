@@ -60,8 +60,7 @@ public class Cliente {
 	
 	@Override
 	public String toString() {
-		return "Cliente[" + this.codigo + "] = \n\tNome: " + this.nome + "\n\tEndereço: " + this.endereco + 
-				"\n\tContato: " + this.contato;
+		return "Cliente[" + this.codigo + "] = \n\tNome: " + this.nome + "\n\tEndereço: " + this.endereco + "\n\tContato: " + this.contato;
 	}
 	
 	/**
@@ -112,7 +111,7 @@ public class Cliente {
 	 * @return um cliente com os dados da linha passada.
 	 */
 	private static Cliente montar(String linhaArquivo) {
-		String[] campos = linhaArquivo.split("\\|\\|\\|");
+		String[] campos = linhaArquivo.split("\\|");
 		Cliente provisorio = new Cliente(Integer.parseInt(campos[0].trim()), campos[1].trim(), campos[2].trim(), campos[3].trim());
 		return provisorio;
 	}
