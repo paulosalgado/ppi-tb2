@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Date;
 
+
 public class OrdemDeServico {
 
 	private int codigo;
@@ -73,26 +74,6 @@ public class OrdemDeServico {
 		this.prioridade = prioridade;
 	}
 
-	/**
-	 * Construtor com argumentos.
-	 * 
-	 * @param codigo
-	 * @param descricao
-	 * @param descricaoAtendimento
-	 * @param dataAbertura
-	 * @param listaClientesEnvolvidos
-	 * @param prioridade
-	 */
-	public OrdemDeServico(int codigo, String descricao, String descricaoAtendimento, Date dataAbertura, 
-			ListaEncadeadaDinamica<Integer> listaClientesEnvolvidos, String prioridade) {
-		this.codigo = codigo;
-		this.descricao = descricao;
-		this.descricaoAtendimento = descricaoAtendimento;
-		this.dataAbertura = dataAbertura;
-		this.listaClientesEnvolvidos = listaClientesEnvolvidos;
-		this.prioridade = prioridade;
-	}
-	
 	/**
 	 * Construtor com argumentos.
 	 * 
@@ -233,10 +214,7 @@ public class OrdemDeServico {
 	@SuppressWarnings("deprecation")
 	private static Date conversaoStringEmDate(String aSerConvertida) {
 		String[] campos = aSerConvertida.split("\\/");
-		//for(int i=0;i<campos.length;i++)System.out.println(campos[i]);System.out.println("fim");
-		Date provisorio = new Date((Integer.parseInt(campos[0].trim())), Integer.parseInt(campos[1].trim()), Integer.parseInt(campos[2].trim()));
-		System.out.println(provisorio.getDate() + "/" + provisorio.getMonth() + "/" + provisorio.getYear());
-		return provisorio;
+		return new Date(Integer.parseInt(campos[2].trim()), Integer.parseInt(campos[1].trim()), Integer.parseInt(campos[0].trim()));
 	}
 	
 	/**
