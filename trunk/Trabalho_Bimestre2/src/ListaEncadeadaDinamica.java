@@ -1,13 +1,16 @@
 
+/**
+ * 
+ * @author Arthur e Paulo José
+ * 
+ */
 public class ListaEncadeadaDinamica <T> {
-	
+
 	/**
 	 * Declaração da classe Nó.
 	 * 
-	 * @author Paulo Salgado
-	 *
-	 * @param <T> - 
-	 * 			o tipo de nó.
+	 * @param <T>
+	 *            - o tipo de nó.
 	 */
 	@SuppressWarnings("hiding")
 	private class No<T> {
@@ -19,7 +22,7 @@ public class ListaEncadeadaDinamica <T> {
 
 	/* primeiro nó da lista */
 	private No<T> primeiro;
-	
+
 	/**
 	 * Construtor padrão.
 	 */
@@ -34,7 +37,7 @@ public class ListaEncadeadaDinamica <T> {
 	public void setPrimeiro(No<T> primeiro) {
 		this.primeiro = primeiro;
 	}
-	
+
 	/**
 	 * Calcula o tamanho de uma lista.
 	 * 
@@ -73,8 +76,8 @@ public class ListaEncadeadaDinamica <T> {
 	/**
 	 * Checa se uma lista está vazia.
 	 * 
-	 * @return <code>true</code> se a lista estiver vazia, 
-	 *		   <code>false</code> caso contrário.
+	 * @return <code>true</code> se a lista estiver vazia, <code>false</code>
+	 *         caso contrário.
 	 */
 	public boolean vazia() {
 		return primeiro == null;
@@ -83,8 +86,8 @@ public class ListaEncadeadaDinamica <T> {
 	/**
 	 * Adiciona um novo elemento no início da lista.
 	 * 
-	 * @param elemento - 
-	 * 			o elemento a inserido.
+	 * @param elemento
+	 *            - o elemento a inserido.
 	 */
 	public void adicionarInicio(T elemento) {
 		
@@ -95,12 +98,12 @@ public class ListaEncadeadaDinamica <T> {
 		primeiro = novo;
 		
 	}
-	
+
 	/**
 	 * Adiciona um novo elemento no final da lista.
 	 * 
-	 * @param elemento - 
-	 * 			o elemento a ser inserido.
+	 * @param elemento
+	 *            - o elemento a ser inserido.
 	 */
 	public void adicionarFinal(T elemento) {
 		
@@ -129,17 +132,16 @@ public class ListaEncadeadaDinamica <T> {
 		
 	}
 	
-	
 	/**
 	 * Adiciona um novo elemento dada uma posição.
 	 * 
-	 * @param elemento - 
-	 * 			o elemento que se deseja adicionar.
-	 * @param posicao - 
-	 * 			a posição que se deseja adicionar o elemento.
+	 * @param elemento
+	 *            - o elemento que se deseja adicionar.
+	 * @param posicao
+	 *            - a posição que se deseja adicionar o elemento.
 	 * 
-	 * @return <code>true</code> caso sucesso,
-	 * 		   <code>false</code> caso contrário.
+	 * @return <code>true</code> caso sucesso, <code>false</code> caso
+	 *         contrário.
 	 */
 	public boolean adicionarDadaPosicao(T elemento, int posicao) {
 		
@@ -186,12 +188,12 @@ public class ListaEncadeadaDinamica <T> {
 		}
 		
 	}
-	
+
 	/**
 	 * Remove o primeiro nó de uma lista.
 	 * 
-	 * @return <code>true</code> se removido com sucesso.
-	 * 		   <code>false</code> caso contrário.
+	 * @return <code>true</code> se removido com sucesso. <code>false</code>
+	 *         caso contrário.
 	 */
 	public boolean removerPrimeiro() {
 		
@@ -209,8 +211,8 @@ public class ListaEncadeadaDinamica <T> {
 	/**
 	 * Remove o último nó de uma lista.
 	 * 
-	 * @return <code>true</code> se removido com sucesso.
-	 * 		   <code>false</code> caso contrário.
+	 * @return <code>true</code> se removido com sucesso. <code>false</code>
+	 *         caso contrário.
 	 */
 	public boolean removerUltimo() {
 		
@@ -239,11 +241,11 @@ public class ListaEncadeadaDinamica <T> {
 	/**
 	 * Remove um elemento dada uma posição.
 	 * 
-	 * @param posicao - 
-	 * 			a posição do elemento que se deseja remover.
+	 * @param posicao
+	 *            - a posição do elemento que se deseja remover.
 	 * 
-	 * @return <code>true</code> caso sucesso,
-	 * 		   <code>false</code> caso contrário.
+	 * @return <code>true</code> caso sucesso, <code>false</code> caso
+	 *         contrário.
 	 */
 	public boolean removerDadaPosicao(int posicao) {
 		
@@ -297,9 +299,10 @@ public class ListaEncadeadaDinamica <T> {
 	 * Remove um elemento da lista dado o seu valor.
 	 * 
 	 * @param elemento
+	 *            - o elemento a ser removido.
 	 * 
-	 * @return <code>true</code> caso sucesso na remoção,
-	 * 		   <code>false</code> caso contrário.
+	 * @return <code>true</code> caso sucesso na remoção, <code>false</code>
+	 *         caso contrário.
 	 */
 	public boolean removerDadoValor(T elemento) {
 		 if (this.vazia()) {
@@ -327,10 +330,12 @@ public class ListaEncadeadaDinamica <T> {
 	 * Modifica um elemento da lista dada sua posição.
 	 * 
 	 * @param posicao
+	 *            - a posição do valor a ser modificado.
 	 * @param novo
+	 *            - o novo elemento a ser inserido.
 	 * 
-	 * @return <code>true</code> caso sucesso na modificação,
-	 * 		   <code>false</code> caso contrário.
+	 * @return <code>true</code> caso sucesso na modificação, <code>false</code>
+	 *         caso contrário.
 	 */
 	public boolean modificarDadaPosicao(int posicao, T novo) {
 		if (this.vazia() || posicao < 0 || posicao > this.tamanho()) {
@@ -346,10 +351,12 @@ public class ListaEncadeadaDinamica <T> {
 	 * Modifica um elemento da lista dado o seu valor.
 	 * 
 	 * @param elemento
+	 *            - o elemento a ser modificado.
 	 * @param novo
+	 *            - o novo elemento a ser inserido.
 	 * 
-	 * @return <code>true</code> caso sucesso na modificação,
-	 * 		   <code>false</code> caso contrário.
+	 * @return <code>true</code> caso sucesso na modificação, <code>false</code>
+	 *         caso contrário.
 	 */
 	public boolean modificarDadoElemento(T elemento, T novo) {
 		if(this.vazia()) {
@@ -376,11 +383,10 @@ public class ListaEncadeadaDinamica <T> {
 	/**
 	 * Busca em uma lista um valor de uma posição informada.
 	 * 
-	 * @param posicaoBuscar - 
-	 * 			a posição que se deseja buscar.
+	 * @param posicaoBuscar
+	 *            - a posição que se deseja buscar.
 	 * 
-	 * @return a posição encontrada, 
-	 * 		   -1 caso contrário.
+	 * @return a posição encontrada, -1 caso contrário.
 	 */
 	public T buscarPorPosicao(int posicaoBuscar) {
 		
@@ -410,11 +416,10 @@ public class ListaEncadeadaDinamica <T> {
 	/**
 	 * Busca em uma lista a posição de um valor informado.
 	 * 
-	 * @param elemento - 
-	 * 			o elemento que se deseja buscar.
+	 * @param elemento
+	 *            - o elemento que se deseja buscar.
 	 * 
-	 * @return a posição do valor da lista, 
-	 * 		   0 caso o valor não exista.
+	 * @return a posição do valor da lista, 0 caso o valor não exista.
 	 */
 	public int buscarPorValor(T elemento) {
 		
@@ -442,8 +447,8 @@ public class ListaEncadeadaDinamica <T> {
 	/**
 	 * Cria uma String com os elemento da lista.
 	 * 
-	 * @return a String com os elementos da lista,
-	 *		   <code>null</code> caso a lista esteja vazia.
+	 * @return a String com os elementos da lista, <code>null</code> caso a
+	 *         lista esteja vazia.
 	 */
 	@Override
 	public String toString() {
